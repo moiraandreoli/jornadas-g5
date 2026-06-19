@@ -131,6 +131,14 @@
   .solucion-tbd .dot{
     width:6px;height:6px;border-radius:50%;background:#e0a430;flex:none;
   }
+  .solucion-action{
+    font-weight:600;font-size:12.5px;
+  }
+  .solucion-contact{
+    display:inline-flex;align-items:center;gap:5px;
+    color:#b3261e;font-size:11.5px;font-weight:600;
+    background:#fde8e8;padding:3px 9px;border-radius:10px;
+  }
 
   .placeholder-row{color:var(--muted);font-style:italic;padding:10px 14px;font-size:12px;}
 
@@ -436,14 +444,14 @@
             <td><span class="badge-type badge-cert">Pend. certificación</span></td>
             <td><a class="link" href="#">Factura 001-002-0007117</a></td>
             <td>Esperando respuesta de la SET</td>
-            <td><span class="solucion-tbd"><span class="dot"></span>A definir con Producto</span></td>
+            <td><a class="link solucion-action" href="#" data-venta="0007117">Reenviar venta 0007117 →</a></td>
             <td class="num">Gs 120.000</td>
           </tr>
           <tr>
             <td><span class="badge-type badge-numjump">Salto numeración</span></td>
             <td><a class="link" href="#">001-002-0007117 → 001-002-0007119</a></td>
             <td>Salto detectado en el talonario activo</td>
-            <td><span class="solucion-tbd"><span class="dot"></span>A definir con Producto</span></td>
+            <td><span class="solucion-contact">Comunicarse con Soporte</span></td>
             <td class="num">—</td>
           </tr>
         </tbody>
@@ -621,6 +629,20 @@
       toast.classList.remove('show');
       toast.textContent = 'Jornada cerrada · Reporte enviado a los usuarios con el permiso activo';
     }, 2600);
+  });
+
+  // ===== Solución por documento: redirección a la venta =====
+  document.querySelectorAll('.solucion-action').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const venta = link.dataset.venta;
+      toast.textContent = `Te llevaríamos a la Venta ${venta} para reenviarla a certificación`;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.textContent = 'Jornada cerrada · Reporte enviado a los usuarios con el permiso activo';
+      }, 2600);
+    });
   });
 </script>
 
