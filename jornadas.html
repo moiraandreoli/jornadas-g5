@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>BIMS — Jornada 110 — Proto PF-08</title>
+<style>
+  :root{
+    --navy:#1c3b63;
+    --navy-dark:#16314f;
+    --blue-link:#2b78c8;
+    --red:#d9534f;
+    --green:#3a9d5d;
+    --bg:#eef1f4;
+    --card-border:#e1e5ea;
+    --text:#2c3338;
+    --muted:#6b7480;
+    --header-row:#f4f6f8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    font-size:13px;
+  }
+  /* TOP NAV */
+  .topnav{
+    background:var(--navy);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    height:44px;
+  }
+  .topnav .brand{font-weight:700;letter-spacing:.5px;font-size:13px;}
+  .topnav .menu{display:flex;gap:18px;font-size:12px;color:#cfe0f2;}
+  .topnav .search{
+    background:#fff;border-radius:3px;padding:4px 10px;font-size:12px;color:#888;
+    width:160px;
+  }
+  .crumbs{
+    background:#fff;
+    padding:8px 20px;
+    font-size:11px;
+    color:var(--muted);
+    border-bottom:1px solid var(--card-border);
+  }
+  .page-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:14px 20px 0 20px;
+  }
+  .page-head h1{font-size:20px;margin:0 0 10px 0;}
+
+  .layout{display:flex;padding:0 20px 60px 20px;gap:16px;}
+  .sidebar{
+    width:160px;flex:none;
+  }
+  .sidebar .close-btn{
+    background:#1D85FC;color:#fff;border:none;
+    padding:9px 0;width:100%;font-weight:600;font-size:12px;
+    border-radius:3px;cursor:pointer;margin-bottom:10px;
+    letter-spacing:.3px;
+  }
+  .sidebar .close-btn:hover{background:#1672d9;}
+  .sidebar nav a{
+    display:block;padding:7px 4px;font-size:12.5px;
+    color:var(--text);text-decoration:none;border-left:3px solid transparent;
+  }
+  .sidebar nav a.active{
+    color:var(--navy);font-weight:600;border-left:3px solid var(--navy);
+    background:#fff;
+  }
+  .main{flex:1;min-width:0;}
+
+  /* ALERT BANNER (new) */
+  .alert-banner{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#fff6e9;border:1px solid #f0c987;
+    border-left:4px solid #e0a430;
+    border-radius:4px;padding:11px 14px;margin-bottom:14px;
+  }
+  .alert-banner .icon{
+    color:#e0a430;font-size:18px;line-height:1;margin-top:1px;
+  }
+  .alert-banner .content{flex:1;}
+  .alert-banner .title{font-weight:700;font-size:13px;color:#7a5210;margin-bottom:2px;}
+  .alert-banner .desc{color:#7a5210;font-size:12px;}
+  .alert-banner a.jump{font-size:12px;color:var(--blue-link);white-space:nowrap;margin-top:1px;text-decoration:none;font-weight:600;}
+
+  .card{
+    background:#fff;border:1px solid var(--card-border);
+    border-radius:4px;margin-bottom:14px;
+    box-shadow:0 1px 1px rgba(0,0,0,.02);
+  }
+  .card h2{
+    font-size:13px;margin:0;padding:10px 14px;
+    border-bottom:1px solid var(--card-border);
+    font-weight:700;
+  }
+  .card h2.pending-flag{
+    display:flex;align-items:center;gap:8px;
+  }
+  .pending-pill{
+    background:#fbeee0;color:#a85d00;font-size:10.5px;font-weight:700;
+    padding:2px 8px;border-radius:10px;letter-spacing:.2px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table th{
+    background:var(--header-row);text-align:left;padding:8px 14px;
+    color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;
+  }
+  table td{padding:8px 14px;border-top:1px solid #f1f3f5;}
+  table td.num, table th.num{text-align:right;}
+  a.link{color:var(--blue-link);text-decoration:none;}
+  .badge-type{
+    display:inline-block;font-size:10.5px;padding:2px 7px;border-radius:3px;
+    font-weight:600;
+  }
+  .badge-sync{background:#fde8e8;color:#b3261e;}
+  .badge-cert{background:#fff0d9;color:#9a6300;}
+  .badge-numjump{background:#e8eefd;color:#2954a8;}
+
+  .solucion-tbd{
+    display:inline-flex;align-items:center;gap:5px;
+    color:#a85d00;font-size:11.5px;font-style:italic;
+  }
+  .solucion-tbd .dot{
+    width:6px;height:6px;border-radius:50%;background:#e0a430;flex:none;
+  }
+
+  .placeholder-row{color:var(--muted);font-style:italic;padding:10px 14px;font-size:12px;}
+
+  .twocol{display:flex;gap:16px;}
+  .twocol > div{flex:1;min-width:0;}
+
+  .footer-link{
+    text-align:center;padding:8px;font-size:12px;
+  }
+
+  /* HELP CHAT - single, fixed */
+  .help-chat{
+    position:fixed;bottom:22px;right:22px;
+    width:44px;height:44px;border-radius:50%;
+    background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;z-index:50;
+  }
+
+  /* MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(20,30,45,.55);
+    display:none;align-items:center;justify-content:center;z-index:100;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal{
+    background:#fff;border-radius:6px;width:420px;max-width:92vw;
+    box-shadow:0 12px 30px rgba(0,0,0,.25);overflow:hidden;
+  }
+  .modal-icon-wrap{
+    padding:24px 24px 0 24px;text-align:center;
+  }
+  .modal-icon{
+    width:46px;height:46px;border-radius:50%;background:#fff0d9;color:#a85d00;
+    display:inline-flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;
+  }
+  .modal-body{padding:14px 28px 6px 28px;text-align:center;}
+  .modal-body .mtitle{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--text);}
+  .modal-body .mdesc{font-size:13px;color:#4a525a;line-height:1.5;}
+  .modal-footer{
+    padding:18px 24px 24px 24px;text-align:center;
+  }
+  .btn-primary{
+    background:var(--navy);color:#fff;border:none;padding:10px 30px;
+    border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.2px;
+  }
+  .btn-primary:hover{background:var(--navy-dark);}
+
+  .toast{
+    position:fixed;top:14px;left:50%;transform:translateX(-50%);
+    background:#26352e;color:#dff5e6;padding:10px 18px;border-radius:4px;
+    font-size:12.5px;z-index:200;display:none;box-shadow:0 4px 12px rgba(0,0,0,.2);
+  }
+  .toast.show{display:block;}
+
+  .proto-tag{
+    position:fixed;top:0;left:0;background:#222;color:#fff;font-size:10px;
+    padding:3px 8px;z-index:300;opacity:.6;
+  }
+
+  /* ===== SCREEN: LISTAR JORNADAS ===== */
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  .subtopnav{
+    background:#fff;display:flex;align-items:center;gap:20px;
+    padding:10px 20px;border-bottom:1px solid var(--card-border);
+    color:#9aa3ab;font-size:18px;
+  }
+  .subtopnav .crumb-label{font-size:13px;color:#8a929a;margin-left:4px;}
+
+  .list-wrap{padding:18px 20px 60px 20px;}
+  .list-sidebar-label{color:#8a929a;font-size:13px;padding:6px 0 14px 0;}
+
+  .caja-card{
+    background:linear-gradient(135deg,#6fb3ec,#3f8fdc);
+    border:1px solid #aed4f5;
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 28px;margin-bottom:14px;
+    position:relative;
+  }
+  .caja-card h3{color:#fff;font-size:26px;font-weight:600;margin:0;}
+  .caja-actions{display:flex;flex-direction:column;gap:8px;}
+  .caja-actions button{
+    background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.5);
+    color:#fff;font-weight:700;font-size:12.5px;letter-spacing:.3px;
+    padding:9px 26px;border-radius:4px;cursor:pointer;
+  }
+  .caja-actions button:hover{background:rgba(255,255,255,.4);}
+  .caja-actions button.jornada-btn.has-pending{
+    box-shadow:0 0 0 2px #ffd166;
+  }
+  .pending-dot{
+    position:absolute;top:-7px;right:-7px;
+    background:#e0a430;color:#fff;border-radius:50%;
+    width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;border:2px solid #fff;
+  }
+  .caja-actions{position:relative;}
+
+  /* Modal de aviso jornada con pendientes */
+  .modal-body .mlist{
+    text-align:left;background:#fbf6ee;border:1px solid #f0d9a8;
+    border-radius:4px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#6b5012;
+  }
+  .modal-footer.two-btn{display:flex;gap:10px;justify-content:center;}
+  .btn-secondary{
+    background:#fff;color:var(--text);border:1px solid #d6dade;
+    padding:10px 22px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;
+  }
+  .btn-secondary:hover{background:#f4f6f8;}
+
+  /* Modal onboarding (primera vez) */
+  .onboarding-modal{width:460px;}
+  .onboarding-modal .modal-icon-wrap{padding:26px 26px 0 26px;}
+  .onboarding-modal .modal-icon{background:#e8eefd;color:#2954a8;font-size:20px;}
+  .onboarding-modal .mtitle{font-size:16px;}
+  .onboarding-modal .mdesc{text-align:left;}
+  .onboarding-steps{
+    text-align:left;background:#f6f8fa;border:1px solid #e1e5ea;
+    border-radius:4px;padding:12px 16px;margin-top:14px;font-size:12.5px;color:#3d444b;
+  }
+  .onboarding-steps ol{margin:6px 0 0 0;padding-left:18px;}
+  .onboarding-steps li{margin-bottom:6px;line-height:1.4;}
+  .onboarding-steps li b{color:var(--text);}
+  .onboarding-footnote{
+    font-size:11.5px;color:var(--muted);margin-top:10px;text-align:left;
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">PROTO — PF-08 Alerta Pre-cierre y Reporte de Sincronización</div>
+
+<!-- ===================== SCREEN 1: LISTAR JORNADAS ===================== -->
+<div class="screen active" id="screenList">
+  <div class="topnav">
+    <div class="brand">YOUR COMPANY</div>
+    <div class="menu">
+      <span>CONFIGURACIÓN ▾</span><span>VENTAS ▾</span><span>COMPRAS ▾</span><span>STOCK ▾</span>
+      <span>PRODUCCIÓN ▾</span><span>GANADERÍA ▾</span><span>RRHH ▾</span><span>BIENES RAÍCES ▾</span>
+      <span>FINANZAS ▾</span><span>CONTABILIDAD ▾</span>
+    </div>
+    <div class="search">Buscar en BIMS</div>
+  </div>
+  <div class="subtopnav">
+    <span>&#8962;</span><span>&#10042;</span><span>+</span>
+  </div>
+
+  <div class="list-wrap">
+    <div class="list-sidebar-label">Listar Jornadas</div>
+
+    <div class="caja-card">
+      <h3>Caja 001</h3>
+      <div class="caja-actions">
+        <div class="pending-dot" title="Documentos pendientes">3</div>
+        <button class="jornada-btn has-pending" data-jornada="181" data-pending="3">JORNADA 181</button>
+        <button>VENDER</button>
+      </div>
+    </div>
+
+    <div class="caja-card">
+      <h3>Caja 1</h3>
+      <div class="caja-actions">
+        <button class="jornada-btn" data-jornada="166" data-pending="0">JORNADA 166</button>
+        <button>VENDER</button>
+      </div>
+    </div>
+
+    <div class="caja-card">
+      <h3>Caja 100</h3>
+      <div class="caja-actions">
+        <button class="jornada-btn" data-jornada="159" data-pending="0">JORNADA 159</button>
+        <button>VENDER</button>
+      </div>
+    </div>
+
+    <div class="caja-card">
+      <h3>Caja Almacen</h3>
+      <div class="caja-actions">
+        <div class="pending-dot" title="Documentos pendientes">1</div>
+        <button class="jornada-btn has-pending" data-jornada="164" data-pending="1">JORNADA 164</button>
+        <button>VENDER</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: onboarding primera vez -->
+<div class="modal-overlay" id="modalOnboarding">
+  <div class="modal onboarding-modal">
+    <div class="modal-icon-wrap"><div class="modal-icon">&#128231;</div></div>
+    <div class="modal-body">
+      <div class="mtitle">Novedad en Jornadas: alertas de documentos pendientes</div>
+      <div class="mdesc">A partir de ahora, si una jornada se cierra con facturas sin sincronizar, pendientes de certificación o saltos de numeración, el sistema te avisa en pantalla. Si además querés recibirlo por correo, hay dos pasos para activarlo:</div>
+      <div class="onboarding-steps">
+        <ol>
+          <li>Andá a <b>Configuración &gt; Tipos de Usuarios</b>, abrí el rol correspondiente y, en la sección <b>"Reportes vía E-Mail"</b>, tildá <b>"Alertas de Facturación al Cierre de Jornada"</b>.</li>
+          <li>Verificá que el usuario tenga cargado su <b>correo electrónico en su perfil</b> — el sistema usa ese mail para enviar el reporte, no hace falta cargarlo aparte.</li>
+        </ol>
+      </div>
+      <div class="onboarding-footnote">Sin estos dos pasos, el aviso va a seguir mostrándose en pantalla, pero no vas a recibir el reporte por correo.</div>
+    </div>
+    <div class="modal-footer two-btn">
+      <button class="btn-secondary" id="onboardingLaterBtn">Más tarde</button>
+      <button class="btn-primary" id="onboardingConfigBtn">Ir a Configuración</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: aviso de pendientes al elegir una jornada -->
+<div class="modal-overlay" id="modalPendingList">
+  <div class="modal">
+    <div class="modal-icon-wrap"><div class="modal-icon">&#9888;</div></div>
+    <div class="modal-body">
+      <div class="mtitle" id="pendingModalTitle">Caja 001 · Jornada 181</div>
+      <div class="mdesc" id="pendingModalDesc">Tenés 3 documentos pendientes de facturación en esta jornada.</div>
+    </div>
+    <div class="modal-footer two-btn">
+      <button class="btn-secondary" id="pendingCancelBtn">Cerrar</button>
+      <button class="btn-primary" id="pendingVerBtn">Ver</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN 2: DETALLE DE JORNADA ===================== -->
+<div class="screen" id="screenDetail">
+
+<div class="topnav">
+  <div class="brand">YOUR COMPANY</div>
+  <div class="menu">
+    <span>CONFIGURACIÓN ▾</span><span>VENTAS ▾</span><span>COMPRAS ▾</span><span>STOCK ▾</span>
+    <span>PRODUCCIÓN ▾</span><span>GANADERÍA ▾</span><span>RRHH ▾</span><span>BIENES RAÍCES ▾</span>
+    <span>FINANZAS ▾</span><span>CONTABILIDAD ▾</span>
+  </div>
+  <div class="search">Buscar en BIMS</div>
+</div>
+<div class="crumbs">PUNTOS DE VENTA · ECOMMERCE · JORNADAS</div>
+
+<div class="page-head">
+  <h1>Jornada 110</h1>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <button class="close-btn" id="closeBtn">CERRAR JORNADA</button>
+    <nav>
+      <a href="#" class="active">Resumen</a>
+      <a href="#">Ventas</a>
+      <a href="#">Extracto de Cuenta</a>
+      <a href="#">Recaudación</a>
+    </nav>
+  </div>
+
+  <div class="main">
+
+    <!-- RN04: banner visible si hay irregularidades -->
+    <div class="alert-banner" id="pendingBanner">
+      <div class="icon">&#9888;</div>
+      <div class="content">
+        <div class="title">Esta jornada tiene comprobantes pendientes de facturación</div>
+        <div class="desc">Hay facturas sin sincronizar, pendientes de certificación o con saltos de numeración asociadas a este cierre.</div>
+      </div>
+      <a href="#docsPendientes" class="jump">Ver detalle ↓</a>
+    </div>
+
+    <div class="twocol">
+      <div>
+        <div class="card">
+          <h2>Apertura</h2>
+          <table>
+            <tr><td style="color:var(--muted)">Fecha de Apertura</td><td>2025-01-10 11:51:11</td></tr>
+            <tr><td style="color:var(--muted)">Usuario de Apertura</td><td><a class="link" href="#">BIMS</a></td></tr>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>Cierre</h2>
+          <table>
+            <tr><td style="color:var(--muted)">Fecha de Cierre</td><td>—</td></tr>
+            <tr><td style="color:var(--muted)">Usuario de Cierre</td><td>—</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- RN04: nuevo bloque/grilla de documentos afectados -->
+    <div class="card" id="docsPendientes">
+      <h2 class="pending-flag">Documentos Pendientes de Facturación <span class="pending-pill">3 pendientes</span></h2>
+      <table>
+        <thead>
+          <tr><th>Tipo</th><th>Documento</th><th>Detalle</th><th>Solución</th><th class="num">Monto</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge-type badge-sync">Sin sincronizar</span></td>
+            <td><a class="link" href="#">Pedido 1318</a></td>
+            <td>No enviado a SIFEN — cola de sincronización</td>
+            <td><span class="solucion-tbd"><span class="dot"></span>A definir con Producto</span></td>
+            <td class="num">Gs 239.000</td>
+          </tr>
+          <tr>
+            <td><span class="badge-type badge-cert">Pend. certificación</span></td>
+            <td><a class="link" href="#">Factura 001-002-0007117</a></td>
+            <td>Esperando respuesta de la SET</td>
+            <td><span class="solucion-tbd"><span class="dot"></span>A definir con Producto</span></td>
+            <td class="num">Gs 120.000</td>
+          </tr>
+          <tr>
+            <td><span class="badge-type badge-numjump">Salto numeración</span></td>
+            <td><a class="link" href="#">001-002-0007117 → 001-002-0007119</a></td>
+            <td>Salto detectado en el talonario activo</td>
+            <td><span class="solucion-tbd"><span class="dot"></span>A definir con Producto</span></td>
+            <td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Órdenes Abiertas</h2>
+      <table>
+        <thead><tr><th>Orden</th><th class="num">Monto</th></tr></thead>
+        <tbody>
+          <tr><td><a class="link" href="#">Pedido 1317</a></td><td class="num">Gs 385.000</td></tr>
+          <tr><td><a class="link" href="#">Pedido 1318</a></td><td class="num">Gs 239.000</td></tr>
+          <tr><td><a class="link" href="#">Factura 001-002-0007117</a></td><td class="num">Gs 120.000</td></tr>
+          <tr><td><a class="link" href="#">Pedido 2353</a></td><td class="num">Gs 50.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Estado de Cuenta</h2>
+      <table>
+        <thead><tr><th>Período</th><th class="num">Crédito</th><th class="num">Débito</th></tr></thead>
+        <tbody>
+          <tr><td>Saldo al Inicio</td><td class="num"></td><td class="num">Gs 100.000</td></tr>
+          <tr><td>Jornada</td><td class="num">Gs 75.892.580</td><td class="num">Gs 91.010.614</td></tr>
+          <tr><td>Saldo Computado de la Jornada</td><td class="num" colspan="2" style="text-align:right">Gs -15.018.034</td></tr>
+          <tr><td>Ajuste al Cierre</td><td class="num">Gs 0</td><td class="num">0</td></tr>
+          <tr><td><strong>Saldo Actual</strong></td><td class="num" colspan="2" style="text-align:right"><strong>Gs -15.018.034</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="twocol">
+      <div>
+        <div class="card">
+          <h2>Resumen de Diferencias</h2>
+          <table>
+            <tr><td>Saldo al Inicio</td><td class="num">Gs 100.000</td></tr>
+            <tr><td>Total de Ventas al Contado</td><td class="num">Gs 104.341.000</td></tr>
+            <tr><td>Egresos</td><td class="num" style="color:var(--red)">(Gs 73.704.114)</td></tr>
+            <tr><td><strong>Diferencia</strong></td><td class="num" style="color:var(--red)"><strong>(Gs 76.031.836)</strong></td></tr>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>Resumen de Ventas y Cobros por Formas de Pago</h2>
+          <table>
+            <tr><td>1. Efectivo</td><td class="num">Gs 3.460.000</td></tr>
+            <tr><td>2. Tarjeta de Débito</td><td class="num">Gs 881.000</td></tr>
+            <tr><td>3. Transferencia Itau</td><td class="num">Gs 100.000.000</td></tr>
+            <tr><td><strong>Total</strong></td><td class="num"><strong>Gs 104.741.000</strong></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Egresos: resumen acortado a pedido del usuario -->
+    <div class="card">
+      <h2>Resumen de Egresos</h2>
+      <table>
+        <thead><tr><th>Id</th><th>Concepto</th><th class="num">Monto</th></tr></thead>
+        <tbody>
+          <tr><td>19976</td><td><a class="link" href="#">Venta Anulada 7110</a></td><td class="num">Gs 17.000.000</td></tr>
+          <tr><td>22151</td><td><a class="link" href="#">Pago a Proveedores / Patricio Hermosilla</a></td><td class="num">Gs 5.005.000</td></tr>
+          <tr><td>22127</td><td><a class="link" href="#">Pago a Proveedores / FATIMA Lopez</a></td><td class="num">Gs 4.550.000</td></tr>
+          <tr><td colspan="2" style="text-align:right;color:var(--muted)">+ 38 movimientos más</td><td></td></tr>
+          <tr><td colspan="2" style="text-align:right"><strong>Total</strong></td><td class="num"><strong>Gs 91.010.614</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="footer-link"><a class="link" href="#">Ver extracto de cuenta completo →</a></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- Único botón de chat de ayuda -->
+<div class="help-chat" title="Chat de ayuda">&#128172;</div>
+
+<!-- MODAL pre-cierre (RN01 / criterios de aceptación) -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-icon-wrap"><div class="modal-icon">&#9888;</div></div>
+    <div class="modal-body">
+      <div class="mtitle">Aviso</div>
+      <div class="mdesc">Existen comprobantes sin sincronizar, pendientes de certificación o saltos de facturación asociados a este turno. Los mismos serán reportados al administrador.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" id="entendidoBtn">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Jornada cerrada · Reporte enviado a los usuarios con el permiso activo</div>
+
+<script>
+  const closeBtn = document.getElementById('closeBtn');
+  const overlay = document.getElementById('modalOverlay');
+  const entendido = document.getElementById('entendidoBtn');
+  const toast = document.getElementById('toast');
+
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.add('show');
+  });
+
+  entendido.addEventListener('click', () => {
+    overlay.classList.remove('show');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3200);
+  });
+
+  // ===== Navegación entre pantallas =====
+  const screenList = document.getElementById('screenList');
+  const screenDetail = document.getElementById('screenDetail');
+  const modalPendingList = document.getElementById('modalPendingList');
+  const pendingModalTitle = document.getElementById('pendingModalTitle');
+  const pendingModalDesc = document.getElementById('pendingModalDesc');
+  const pendingCancelBtn = document.getElementById('pendingCancelBtn');
+  const pendingVerBtn = document.getElementById('pendingVerBtn');
+
+  const cajaNames = {181:'Caja 001', 166:'Caja 1', 159:'Caja 100', 164:'Caja Almacen'};
+
+  document.querySelectorAll('.jornada-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const jornada = btn.dataset.jornada;
+      const pending = parseInt(btn.dataset.pending, 10);
+
+      if (pending > 0) {
+        pendingModalTitle.textContent = `${cajaNames[jornada]} · Jornada ${jornada}`;
+        pendingModalDesc.textContent = `Tenés ${pending} documento${pending > 1 ? 's' : ''} pendiente${pending > 1 ? 's' : ''} de facturación en esta jornada.`;
+        modalPendingList.classList.add('show');
+      } else {
+        goToDetail();
+      }
+    });
+  });
+
+  pendingCancelBtn.addEventListener('click', () => {
+    modalPendingList.classList.remove('show');
+  });
+
+  pendingVerBtn.addEventListener('click', () => {
+    modalPendingList.classList.remove('show');
+    goToDetail();
+  });
+
+  function goToDetail(){
+    screenList.classList.remove('active');
+    screenDetail.classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  // ===== Modal onboarding (primera vez que entra a Jornadas) =====
+  const modalOnboarding = document.getElementById('modalOnboarding');
+  const onboardingLaterBtn = document.getElementById('onboardingLaterBtn');
+  const onboardingConfigBtn = document.getElementById('onboardingConfigBtn');
+
+  // En el proto se muestra siempre al cargar; en producto real sería
+  // condicionado a "primera vez que el usuario entra a Jornadas".
+  window.addEventListener('load', () => {
+    modalOnboarding.classList.add('show');
+  });
+
+  onboardingLaterBtn.addEventListener('click', () => {
+    modalOnboarding.classList.remove('show');
+  });
+
+  onboardingConfigBtn.addEventListener('click', () => {
+    modalOnboarding.classList.remove('show');
+    toast.textContent = 'Te llevaríamos a Configuración › Tipos de Usuarios';
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.textContent = 'Jornada cerrada · Reporte enviado a los usuarios con el permiso activo';
+    }, 2600);
+  });
+</script>
+
+</body>
+</html>
