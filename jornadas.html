@@ -482,7 +482,7 @@
             <td><span class="badge-type badge-sync">Sin sincronizar</span></td>
             <td><a class="link" href="#">Pedido 1318</a></td>
             <td>No enviado a SIFEN — cola de sincronización</td>
-            <td><span class="solucion-tbd"><span class="dot"></span>En revisión por Producto</span></td>
+            <td><a class="link solucion-contact" href="#" id="chatSoporteLink2">Chatear con Soporte →</a></td>
             <td class="num">Gs 239.000</td>
           </tr>
           <tr>
@@ -754,10 +754,12 @@
     }, 1400);
   }
 
-  document.getElementById('chatSoporteLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    chatModal.classList.add('show');
-    chatInput.focus();
+  document.querySelectorAll('#chatSoporteLink, #chatSoporteLink2').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      chatModal.classList.add('show');
+      chatInput.focus();
+    });
   });
 
   chatCloseBtn.addEventListener('click', () => chatModal.classList.remove('show'));
