@@ -386,9 +386,8 @@
       </div>
       <div class="onboarding-footnote">Sin estos dos pasos, el aviso va a seguir mostrándose en pantalla, pero no vas a recibir el reporte por correo.</div>
     </div>
-    <div class="modal-footer two-btn">
-      <button class="btn-secondary" id="onboardingLaterBtn">Más tarde</button>
-      <button class="btn-primary" id="onboardingConfigBtn">Ir a Configuración</button>
+    <div class="modal-footer">
+      <button class="btn-primary" id="onboardingConfigBtn">Entendido</button>
     </div>
   </div>
 </div>
@@ -677,7 +676,6 @@
 
   // ===== Modal onboarding (primera vez que entra a Jornadas) =====
   const modalOnboarding = document.getElementById('modalOnboarding');
-  const onboardingLaterBtn = document.getElementById('onboardingLaterBtn');
   const onboardingConfigBtn = document.getElementById('onboardingConfigBtn');
 
   // En el proto se muestra siempre al cargar; en producto real sería
@@ -686,18 +684,8 @@
     modalOnboarding.classList.add('show');
   });
 
-  onboardingLaterBtn.addEventListener('click', () => {
-    modalOnboarding.classList.remove('show');
-  });
-
   onboardingConfigBtn.addEventListener('click', () => {
     modalOnboarding.classList.remove('show');
-    toast.textContent = 'Te llevaríamos a Configuración › Tipos de Usuarios';
-    toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-      toast.textContent = 'Jornada cerrada · Reporte enviado a los usuarios con el permiso activo';
-    }, 2600);
   });
 
   // ===== Solución por documento: redirección a la venta =====
