@@ -376,12 +376,12 @@
   <div class="modal onboarding-modal">
     <div class="modal-icon-wrap"><div class="modal-icon">&#128231;</div></div>
     <div class="modal-body">
-      <div class="mtitle">Novedad en Jornadas: alertas de documentos pendientes</div>
-      <div class="mdesc">A partir de ahora, si una jornada se cierra con facturas sin sincronizar, pendientes de certificación o saltos de numeración, el sistema te avisa en pantalla. Si además querés recibirlo por correo, hay dos pasos para activarlo:</div>
+      <div class="mtitle">Novedad en Jornadas: alertas de acciones pendientes</div>
+      <div class="mdesc">A partir de ahora, si una jornada se cierra con facturas sin sincronizar, pendientes de certificación o saltos de numeración, te vamos a avisar con una notificación. Si además querés recibirlo por correo, hay dos pasos para activarlo:</div>
       <div class="onboarding-steps">
         <ol>
-          <li>Andá a <b>Configuración &gt; Tipos de Usuarios</b>, abrí el rol correspondiente y, en la sección <b>"Reportes vía E-Mail"</b>, tildá <b>"Alertas de Facturación al Cierre de Jornada"</b>.</li>
-          <li>Verificá que el usuario tenga cargado su <b>correo electrónico en su perfil</b> — el sistema usa ese mail para enviar el reporte, no hace falta cargarlo aparte.</li>
+          <li>Solo el usuario <b>Administrador</b> puede asignar este permiso a un rol o persona desde <b>Configuración &gt; Tipos de Usuarios</b>.</li>
+          <li>Verificá que el usuario tenga cargado su <b>correo electrónico en su perfil</b> — el sistema usa ese mail para enviar el reporte.</li>
         </ol>
       </div>
       <div class="onboarding-footnote">Sin estos dos pasos, el aviso va a seguir mostrándose en pantalla, pero no vas a recibir el reporte por correo.</div>
@@ -398,7 +398,7 @@
     <div class="modal-icon-wrap"><div class="modal-icon">&#9888;</div></div>
     <div class="modal-body">
       <div class="mtitle" id="pendingModalTitle">Caja 001 · Jornada 181</div>
-      <div class="mdesc" id="pendingModalDesc">Tenés 3 documentos pendientes de facturación en esta jornada.</div>
+      <div class="mdesc" id="pendingModalDesc">Tenés acciones pendientes relacionadas a facturación.<br><br>Para un correcto cierre de jornada es necesario que las resuelvas.</div>
     </div>
     <div class="modal-footer two-btn">
       <button class="btn-secondary" id="pendingCancelBtn">Cerrar</button>
@@ -471,29 +471,29 @@
 
     <!-- RN04: nuevo bloque/grilla de documentos afectados -->
     <div class="card" id="docsPendientes">
-      <h2 class="pending-flag">Documentos Pendientes de Facturación <span class="pending-pill">3 pendientes</span></h2>
+      <h2 class="pending-flag">Acciones pendientes para el cierre de jornada <span class="pending-pill">3 pendientes</span></h2>
       <table>
         <thead>
-          <tr><th>Tipo</th><th>Documento</th><th>Detalle</th><th>Solución</th><th class="num">Monto</th></tr>
+          <tr><th>Documento</th><th>Estado</th><th>Detalle</th><th>Solución</th><th class="num">Monto</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="badge-type badge-sync">Sin sincronizar</span></td>
             <td><a class="link" href="#">Pedido 1318</a></td>
+            <td><span class="badge-type badge-sync">Sin sincronizar</span></td>
             <td>No enviado a SIFEN — cola de sincronización</td>
             <td><a class="link solucion-contact" href="#" id="chatSoporteLink2">Chatear con Soporte →</a></td>
             <td class="num">Gs 239.000</td>
           </tr>
           <tr>
-            <td><span class="badge-type badge-cert">Pend. certificación</span></td>
             <td><a class="link" href="#">Factura 001-002-0007117</a></td>
+            <td><span class="badge-type badge-cert">Pend. certificación</span></td>
             <td>Fallo 0301: RUC inexistente</td>
             <td><a class="link solucion-action" href="#" data-venta="0007117">Reenviar venta 0007117 →</a></td>
             <td class="num">Gs 120.000</td>
           </tr>
           <tr>
-            <td><span class="badge-type badge-numjump">Salto numeración</span></td>
             <td><a class="link" href="#">001-002-0007117 → 001-002-0007119</a></td>
+            <td><span class="badge-type badge-numjump">Salto numeración</span></td>
             <td>Salto detectado en el talonario activo</td>
             <td><a class="link solucion-contact" href="#" id="chatSoporteLink">Chatear con Soporte →</a></td>
             <td class="num">—</td>
@@ -607,7 +607,7 @@
     <div class="modal-icon-wrap"><div class="modal-icon">&#9888;</div></div>
     <div class="modal-body">
       <div class="mtitle">Aviso</div>
-      <div class="mdesc">Existen comprobantes sin sincronizar, pendientes de certificación o saltos de facturación asociados a este turno. Los mismos serán reportados al administrador.</div>
+      <div class="mdesc">Existen acciones pendientes que requieren solución para un correcto cierre de jornada.</div>
     </div>
     <div class="modal-footer">
       <button class="btn-primary" id="entendidoBtn">Entendido</button>
