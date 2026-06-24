@@ -126,9 +126,7 @@
 
   .solucion-tbd{
     display:inline-flex;align-items:center;gap:5px;
-    color:#7a5500;font-size:11.5px;font-weight:600;
-    background:#fff3cd;border:1px solid #f5c842;
-    padding:2px 8px;border-radius:10px;
+    color:#a85d00;font-size:11.5px;font-style:italic;
   }
   .solucion-tbd .dot{
     width:6px;height:6px;border-radius:50%;background:#e0a430;flex:none;
@@ -138,11 +136,9 @@
   }
   .solucion-contact{
     display:inline-flex;align-items:center;gap:5px;
-    color:#1a5276;font-size:11.5px;font-weight:600;
-    background:#d6eaf8;padding:3px 9px;border-radius:10px;
-    text-decoration:none;
+    color:#b3261e;font-size:11.5px;font-weight:600;
+    background:#fde8e8;padding:3px 9px;border-radius:10px;
   }
-  .solucion-contact:hover{background:#aed6f1;}
 
   .placeholder-row{color:var(--muted);font-style:italic;padding:10px 14px;font-size:12px;}
 
@@ -151,47 +147,6 @@
 
   .footer-link{
     text-align:center;padding:8px;font-size:12px;
-  }
-
-  /* CHAT SOPORTE MODAL */
-  .chat-modal{
-    position:fixed;bottom:22px;right:22px;width:320px;
-    background:#fff;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.18);
-    display:none;flex-direction:column;overflow:hidden;z-index:200;
-  }
-  .chat-modal.show{display:flex;}
-  .chat-header{
-    background:var(--navy);color:#fff;padding:12px 16px;
-    display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;
-  }
-  .chat-header-left{display:flex;align-items:center;gap:8px;}
-  .chat-avatar{
-    width:30px;height:30px;border-radius:50%;background:#e8eefd;
-    color:#2954a8;font-size:14px;display:flex;align-items:center;justify-content:center;font-weight:700;
-  }
-  .chat-close{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;line-height:1;padding:0;}
-  .chat-body{padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:120px;background:#f7f9fc;}
-  .chat-bubble{
-    background:#fff;border:1px solid #e4e8ed;border-radius:12px 12px 12px 2px;
-    padding:9px 13px;font-size:12.5px;color:var(--text);max-width:85%;line-height:1.4;
-    box-shadow:0 1px 3px rgba(0,0,0,.06);
-  }
-  .chat-typing{display:flex;gap:4px;align-items:center;padding:4px 0;}
-  .chat-typing span{
-    width:6px;height:6px;border-radius:50%;background:#aab;
-    animation:blink 1.2s infinite;
-  }
-  .chat-typing span:nth-child(2){animation-delay:.2s;}
-  .chat-typing span:nth-child(3){animation-delay:.4s;}
-  @keyframes blink{0%,80%,100%{opacity:.3;}40%{opacity:1;}}
-  .chat-footer{padding:10px 12px;border-top:1px solid #e4e8ed;display:flex;gap:8px;background:#fff;}
-  .chat-input{
-    flex:1;border:1px solid #d1d5db;border-radius:8px;
-    padding:7px 10px;font-size:12.5px;color:var(--text);outline:none;
-  }
-  .chat-send{
-    background:var(--navy);color:#fff;border:none;border-radius:8px;
-    padding:7px 12px;font-size:12.5px;font-weight:600;cursor:pointer;
   }
 
   /* HELP CHAT - single, fixed */
@@ -376,10 +331,11 @@
   <div class="modal onboarding-modal">
     <div class="modal-icon-wrap"><div class="modal-icon">&#128231;</div></div>
     <div class="modal-body">
-      <div class="mtitle">Novedad en Jornadas: alertas de acciones pendientes</div>
-      <div class="mdesc">A partir de ahora, si una jornada se cierra con facturas sin sincronizar, pendientes de certificación o saltos de numeración, te vamos a avisar con una notificación. Si además querés recibirlo por correo, hay dos pasos para activarlo:</div>
+      <div class="mtitle">Novedad en Jornadas: alertas de documentos pendientes</div>
+      <div class="mdesc">A partir de ahora, si una jornada se cierra con facturas sin sincronizar, pendientes de certificación o saltos de numeración, el sistema te avisa en pantalla. Si además querés recibirlo por correo, hay dos pasos para activarlo:</div>
       <div class="onboarding-steps">
         <ol>
+          <li>Andá a <b>Configuración &gt; Tipos de Usuarios</b>, abrí el rol correspondiente y, en la sección <b>"Reportes vía E-Mail"</b>, tildá <b>"Alertas de Facturación al Cierre de Jornada"</b>.</li>
           <li>Solo el usuario <b>Administrador</b> puede asignar este permiso a un rol o persona desde <b>Configuración &gt; Tipos de Usuarios</b>.</li>
           <li>Verificá que el usuario tenga cargado su <b>correo electrónico en su perfil</b> — el sistema usa ese mail para enviar el reporte.</li>
         </ol>
@@ -398,7 +354,7 @@
     <div class="modal-icon-wrap"><div class="modal-icon">&#9888;</div></div>
     <div class="modal-body">
       <div class="mtitle" id="pendingModalTitle">Caja 001 · Jornada 181</div>
-      <div class="mdesc" id="pendingModalDesc">Tenés acciones pendientes relacionadas a facturación.<br><br>Para un correcto cierre de jornada es necesario que las resuelvas.</div>
+      <div class="mdesc" id="pendingModalDesc">Tenés acciones pendientes relacionadas a facturación que requieren solución para un correcto cierre de jornada.</div>
     </div>
     <div class="modal-footer two-btn">
       <button class="btn-secondary" id="pendingCancelBtn">Cerrar</button>
@@ -442,8 +398,8 @@
     <div class="alert-banner" id="pendingBanner">
       <div class="icon">&#9888;</div>
       <div class="content">
-        <div class="title">Esta jornada tiene comprobantes pendientes de facturación</div>
-        <div class="desc">Hay facturas sin sincronizar, pendientes de certificación o con saltos de numeración asociadas a este cierre.</div>
+        <div class="title">Tenés acciones pendientes relacionadas a facturación</div>
+        <div class="desc">Para un correcto cierre de jornada es necesario que las resuelvas.</div>
       </div>
       <a href="#docsPendientes" class="jump">Ver detalle ↓</a>
     </div>
@@ -474,28 +430,28 @@
       <h2 class="pending-flag">Acciones pendientes para el cierre de jornada <span class="pending-pill">3 pendientes</span></h2>
       <table>
         <thead>
-          <tr><th>Documento</th><th>Estado</th><th>Detalle</th><th>Solución</th><th class="num">Monto</th></tr>
+          <tr><th>Tipo</th><th>Documento</th><th>Detalle</th><th>Solución</th><th class="num">Monto</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><a class="link" href="#">Pedido 1318</a></td>
             <td><span class="badge-type badge-sync">Sin sincronizar</span></td>
+            <td><a class="link" href="#">Pedido 1318</a></td>
             <td>No enviado a SIFEN — cola de sincronización</td>
-            <td><a class="link solucion-contact" href="#" id="chatSoporteLink2">Chatear con Soporte →</a></td>
+            <td><span class="solucion-tbd"><span class="dot"></span>A definir con Producto</span></td>
             <td class="num">Gs 239.000</td>
           </tr>
           <tr>
-            <td><a class="link" href="#">Factura 001-002-0007117</a></td>
             <td><span class="badge-type badge-cert">Pend. certificación</span></td>
-            <td>Fallo 0301: RUC inexistente</td>
+            <td><a class="link" href="#">Factura 001-002-0007117</a></td>
+            <td>Esperando respuesta de la SET</td>
             <td><a class="link solucion-action" href="#" data-venta="0007117">Reenviar venta 0007117 →</a></td>
             <td class="num">Gs 120.000</td>
           </tr>
           <tr>
-            <td><a class="link" href="#">001-002-0007117 → 001-002-0007119</a></td>
             <td><span class="badge-type badge-numjump">Salto numeración</span></td>
+            <td><a class="link" href="#">001-002-0007117 → 001-002-0007119</a></td>
             <td>Salto detectado en el talonario activo</td>
-            <td><a class="link solucion-contact" href="#" id="chatSoporteLink">Chatear con Soporte →</a></td>
+            <td><span class="solucion-contact">Comunicarse con Soporte</span></td>
             <td class="num">—</td>
           </tr>
         </tbody>
@@ -574,30 +530,6 @@
 </div>
 </div>
 
-<!-- Chat de soporte (simulado) -->
-<div class="chat-modal" id="chatSoporteModal">
-  <div class="chat-header">
-    <div class="chat-header-left">
-      <div class="chat-avatar">S</div>
-      <div>
-        <div>Soporte técnico</div>
-        <div style="font-size:10px;font-weight:400;opacity:.8;">En línea</div>
-      </div>
-    </div>
-    <button class="chat-close" id="chatCloseBtn">&times;</button>
-  </div>
-  <div class="chat-body" id="chatBody">
-    <div class="chat-bubble">Hola, soy del equipo de Soporte. Recibí tu consulta sobre el salto de numeración en la jornada. ¿Podés darme el número de talonario afectado?</div>
-    <div class="chat-typing" id="chatTyping" style="display:none;">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-  <div class="chat-footer">
-    <input class="chat-input" id="chatInput" type="text" placeholder="Escribí tu mensaje…" />
-    <button class="chat-send" id="chatSendBtn">Enviar</button>
-  </div>
-</div>
-
 <!-- Único botón de chat de ayuda -->
 <div class="help-chat" title="Chat de ayuda">&#128172;</div>
 
@@ -607,7 +539,7 @@
     <div class="modal-icon-wrap"><div class="modal-icon">&#9888;</div></div>
     <div class="modal-body">
       <div class="mtitle">Aviso</div>
-      <div class="mdesc">Existen acciones pendientes que requieren solución para un correcto cierre de jornada.</div>
+      <div class="mdesc">Existen acciones pendientes que requieren solución para un correcto cierre de jornada. Los mismos serán reportados al administrador.</div>
     </div>
     <div class="modal-footer">
       <button class="btn-primary" id="entendidoBtn">Entendido</button>
@@ -651,7 +583,6 @@
 
       if (pending > 0) {
         pendingModalTitle.textContent = `${cajaNames[jornada]} · Jornada ${jornada}`;
-        pendingModalDesc.textContent = `Tenés ${pending} documento${pending > 1 ? 's' : ''} pendiente${pending > 1 ? 's' : ''} de facturación en esta jornada.`;
         modalPendingList.classList.add('show');
       } else {
         goToDetail();
@@ -701,67 +632,6 @@
       }, 2600);
     });
   });
-
-  // ===== Chat de soporte simulado =====
-  const chatModal = document.getElementById('chatSoporteModal');
-  const chatCloseBtn = document.getElementById('chatCloseBtn');
-  const chatInput = document.getElementById('chatInput');
-  const chatSendBtn = document.getElementById('chatSendBtn');
-  const chatBody = document.getElementById('chatBody');
-  const chatTyping = document.getElementById('chatTyping');
-
-  const respuestasAuto = [
-    'Entendido, voy a revisar el caso con el equipo.',
-    'Gracias por el dato. ¿Tenés el número exacto del talonario activo?',
-    'Lo estoy escalando con el área de facturación. Te aviso en breve.',
-    'Ya quedó registrado. El equipo te va a contactar en menos de 24 hs hábiles.',
-  ];
-  let respIdx = 0;
-
-  function appendBubble(text, isUser = false){
-    const b = document.createElement('div');
-    b.className = 'chat-bubble';
-    b.textContent = text;
-    if(isUser){
-      Object.assign(b.style, {
-        background:'var(--navy)', color:'#fff', border:'none',
-        borderRadius:'12px 12px 2px 12px', alignSelf:'flex-end'
-      });
-    }
-    chatBody.insertBefore(b, chatTyping);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }
-
-  function showTypingThenReply(){
-    chatTyping.style.display = 'flex';
-    chatBody.scrollTop = chatBody.scrollHeight;
-    setTimeout(() => {
-      chatTyping.style.display = 'none';
-      appendBubble(respuestasAuto[respIdx % respuestasAuto.length]);
-      respIdx++;
-    }, 1400);
-  }
-
-  document.querySelectorAll('#chatSoporteLink, #chatSoporteLink2').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      chatModal.classList.add('show');
-      chatInput.focus();
-    });
-  });
-
-  chatCloseBtn.addEventListener('click', () => chatModal.classList.remove('show'));
-
-  chatSendBtn.addEventListener('click', enviarMensaje);
-  chatInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') enviarMensaje(); });
-
-  function enviarMensaje(){
-    const txt = chatInput.value.trim();
-    if(!txt) return;
-    appendBubble(txt, true);
-    chatInput.value = '';
-    showTypingThenReply();
-  }
 </script>
 
 </body>
